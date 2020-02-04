@@ -463,10 +463,10 @@ window.onload = function() {
 
 	Instance.prototype.creatClone = function(e) {
 			// создаём клон корабля
-		var clone	= this.draggable.elem,
+		var clone	= this.draggable.elem;
 			// запоминаем исходное положение перетаскиваемого корабля
 			// и его родительский элемент
-			old		= {
+		var old		= {
 				parent:			clone.parentNode,
 				nextSibling:	clone.nextSibling,
 				left:			clone.left || '',
