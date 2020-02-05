@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Sea Battle</title>
 	<link rel="stylesheet" href="styles.css" type="text/css">
-	<script src="vendor/squirrelly.min.js"></script>
+	<script src="vendor/handlebars.min.js"></script>
 </head>
 <body>
 <div class="battlefield">
@@ -17,10 +17,13 @@
 </html>
 
 <script id="field-tmpl" type="text/html">
-	{{each(options.rows)}}
+	{{#each rows}}
 	<tr>
-		{{each(@this)}}
-		<td class="field-cell" data-row="{{@this.row}}" data-col="{{@this.col}}"></td>
+		{{#each this}}
+		<td class="field-cell" data-row="{{row}}" data-col="{{col}}">
+			{{#if rowLabel}}<div class="cell-marker cell-marker-row">{{rowLabel}}</div>{{/if}}
+			{{#if colLabel}}<div class="cell-marker cell-marker-col">{{colLabel}}</div>{{/if}}
+		</td>
 		{{/each}}
 	</tr>
 	{{/each}}

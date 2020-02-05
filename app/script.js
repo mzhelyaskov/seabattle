@@ -1,10 +1,10 @@
 (function (run) {
-	Sqrl.autoEscaping(false);
 	document.addEventListener("DOMContentLoaded", run);
 })(function () {
 
+	const LETTERS = "А,Б,В,Г,Д,Е,Ж,З,И,К".split(",");
 	const playerFieldElem = getElementById('player-field');
-	const fieldTmpl = Sqrl.Compile(getTemplate('field-tmpl'));
+	const fieldTmpl = Handlebars.compile(getTemplate('field-tmpl'));
 
 	generateField(playerFieldElem);
 
@@ -13,11 +13,13 @@
 		for (let row = 0; row < 10; row++) {
 			const cells = [];
 			for (let col = 0; col < 10; col++) {
-				cells.push({row: row, col: col});
+				const rowLabel = col === 0 && (row + 1);
+				const colLabel = row === 0 && LETTERS[col];
+				cells.push({row, col, rowLabel, colLabel});
 			}
 			rows.push(cells);
 		}
-		fieldContainer.innerHTML = fieldTmpl({rows: rows}, Sqrl);
+		fieldContainer.innerHTML = fieldTmpl({rows});
 	}
 
 	function getElementById(id) {
