@@ -1,0 +1,16 @@
+@import "../utils/mixins";
+
+.harbor {
+	display: inline-block;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	vertical-align: middle;
+	width: 100%;
+
+	li {
+		@include clearfix();
+		display: block;
+		padding: 1.5rem;
+	}
+}

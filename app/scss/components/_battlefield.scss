@@ -1,0 +1,39 @@
+@import "../utils/colors";
+@import "../variables";
+
+.field {
+	display: inline-block;
+	line-height: normal;
+	vertical-align: middle;
+
+	table {
+		border-collapse: collapse;
+
+		.field-cell {
+			position: relative;
+			border: 1px solid $color-primary;
+			height: $cell-size;
+			width: $cell-size;
+		}
+	}
+}
+
+.cell-marker {
+	position: absolute;
+	font-size: 18px;
+	font-family: monospace;
+
+	&.cell-marker-row {
+		left: -4.8rem;
+		width: 100%;
+		text-align: right;
+		top: 0.5rem;
+	}
+
+	&.cell-marker-col {
+		top: -3rem;
+		left: 0;
+		width: 100%;
+		text-align: center;
+	}
+}

@@ -1,0 +1,75 @@
+@import "../variables";
+
+$ship-min-size: 3.2rem;
+$border-dotted: #b2b2b9;
+
+.port {
+	border: 1px dotted $border-dotted;
+	float: right;
+	margin-left: 3rem;
+	height: $ship-min-size;
+
+	&.four-deck-port {
+		width: $cell-size * 4;
+	}
+
+	&.triple-deck-port {
+		width: $cell-size * 3;
+	}
+
+	&.double-deck-port {
+		width: $cell-size * 2;
+	}
+
+	&.single-deck-port {
+		width: $cell-size;
+	}
+}
+
+.ship {
+	border: 2px solid #00f;
+	background: rgba(0, 0, 255, 0.05);
+	margin: -2px;
+}
+
+.four-deck {
+	&.vertical {
+		height: $cell-size * 4;
+		width: $ship-min-size;
+	}
+
+	&.horizontal {
+		height: $ship-min-size;
+		width: $cell-size * 4;
+	}
+}
+
+.triple-deck {
+	&.vertical {
+		height: $cell-size * 3;
+		width: $ship-min-size;
+	}
+
+	&.horizontal {
+		height: $ship-min-size;
+		width: $cell-size * 3;
+	}
+}
+
+.double-deck {
+	&.vertical {
+		height: $cell-size * 2;
+		width: $ship-min-size;
+	}
+
+	&.horizontal {
+		height: $ship-min-size;
+		width: $cell-size * 2;
+	}
+}
+
+.single-deck {
+	height: $cell-size;
+	width: $cell-size;
+}
+

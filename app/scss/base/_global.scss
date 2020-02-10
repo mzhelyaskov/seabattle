@@ -1,0 +1,29 @@
+@import "../variables";
+
+html {
+	font-size: 10px;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.battlefield {
+	height: 100vh;
+	line-height: 100vh;
+	margin: 0 auto;
+	width: $container-size;
+}
+
+.col {
+	width: 50%;
+
+	&:first-child {
+		float: left;
+	}
+
+	&:last-child {
+		float: right;
+	}
+}
