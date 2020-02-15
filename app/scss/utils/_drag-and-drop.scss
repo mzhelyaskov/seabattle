@@ -1,0 +1,6 @@
+@import "functions";
+
+.draggable {
+	z-index: z-index('onTop');
+	position: fixed;
+}

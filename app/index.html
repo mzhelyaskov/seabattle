@@ -7,11 +7,15 @@
 	<script src="vendor/handlebars.min.js"></script>
 </head>
 <body>
-<div class="battlefield">
+
+<ul id="drag-monitor"></ul>
+<div id="point">
+	<span style="position: absolute; left: -17px; top: 17px; font: 10px monospace; width: 100px;"></span>
+</div>
+
+<div class="container">
 	<div class="col">
-		<div class="field player-field">
-			<table id="player-field"></table>
-		</div>
+		<div id="player-battlefield" class="battlefield"></div>
 	</div>
 	<div class="col">
 		<ul class="harbor">
@@ -60,15 +64,21 @@
 </body>
 </html>
 
-<script id="field-tmpl" type="text/html">
+<script id="battlefield-tmpl" type="text/html">
 	{{#each rows}}
-	<tr>
+	<div class="battlefield-row">
 		{{#each this}}
-		<td class="field-cell" data-row="{{row}}" data-col="{{col}}">
+		<div class="battlefield-cell" data-row="{{row}}" data-col="{{col}}">
 			{{#if rowLabel}}<div class="cell-marker cell-marker-row">{{rowLabel}}</div>{{/if}}
 			{{#if colLabel}}<div class="cell-marker cell-marker-col">{{colLabel}}</div>{{/if}}
-		</td>
+		</div>
 		{{/each}}
-	</tr>
+	</div>
+	{{/each}}
+</script>
+
+<script id="drag-monitor-tmpl" type="text/html">
+	{{#each indicators}}
+	<li>{{this.property}}: {{this.value}}</li>
 	{{/each}}
 </script>

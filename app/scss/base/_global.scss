@@ -7,23 +7,28 @@ html {
 body {
 	margin: 0;
 	padding: 0;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently not supported by any browser */
 }
 
-.battlefield {
+.container {
 	height: 100vh;
 	line-height: 100vh;
 	margin: 0 auto;
 	width: $container-size;
-}
 
-.col {
-	width: 50%;
+	.col {
+		width: 50%;
 
-	&:first-child {
-		float: left;
-	}
+		&:first-child {
+			float: left;
+		}
 
-	&:last-child {
-		float: right;
+		&:last-child {
+			float: right;
+		}
 	}
 }

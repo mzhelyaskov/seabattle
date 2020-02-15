@@ -1,75 +1,82 @@
 @import "../variables";
 
-$ship-min-size: 3.2rem;
-$border-dotted: #b2b2b9;
+$color-port-border: #b2b2b9;
+$single-deck-size: $cell-size + 1;
+$double-deck-length: ($cell-size * 2) + 1;
+$triple-deck-length: ($cell-size * 3) + 1;
+$four-deck-length: ($cell-size * 4) + 1;
 
 .port {
-	border: 1px dotted $border-dotted;
+	border: 1px dotted $color-port-border;
 	float: right;
 	margin-left: 3rem;
-	height: $ship-min-size;
+	height: $cell-size;
+	box-sizing: border-box;
 
 	&.four-deck-port {
-		width: $cell-size * 4;
+		width: $four-deck-length;
 	}
 
 	&.triple-deck-port {
-		width: $cell-size * 3;
+		width: $triple-deck-length;
 	}
 
 	&.double-deck-port {
-		width: $cell-size * 2;
+		width: $double-deck-length;
 	}
 
 	&.single-deck-port {
-		width: $cell-size;
+		width: $single-deck-size;
+	}
+
+	.ship {
+		margin: -1px;
 	}
 }
 
 .ship {
 	border: 2px solid #00f;
 	background: rgba(0, 0, 255, 0.05);
-	margin: -2px;
+	box-sizing: border-box;
+
+	&.four-deck {
+		&.vertical {
+			height: $four-deck-length;
+			width: $single-deck-size;
+		}
+
+		&.horizontal {
+			height: $single-deck-size;
+			width: $four-deck-length;
+		}
+	}
+
+	&.triple-deck {
+		&.vertical {
+			height: $triple-deck-length;
+			width: $single-deck-size;
+		}
+
+		&.horizontal {
+			height: $single-deck-size;
+			width: $triple-deck-length;
+		}
+	}
+
+	&.double-deck {
+		&.vertical {
+			height: $double-deck-length;
+			width: $single-deck-size;
+		}
+
+		&.horizontal {
+			height: $single-deck-size;
+			width: $double-deck-length;
+		}
+	}
+
+	&.single-deck {
+		height: $single-deck-size;
+		width: $single-deck-size;
+	}
 }
-
-.four-deck {
-	&.vertical {
-		height: $cell-size * 4;
-		width: $ship-min-size;
-	}
-
-	&.horizontal {
-		height: $ship-min-size;
-		width: $cell-size * 4;
-	}
-}
-
-.triple-deck {
-	&.vertical {
-		height: $cell-size * 3;
-		width: $ship-min-size;
-	}
-
-	&.horizontal {
-		height: $ship-min-size;
-		width: $cell-size * 3;
-	}
-}
-
-.double-deck {
-	&.vertical {
-		height: $cell-size * 2;
-		width: $ship-min-size;
-	}
-
-	&.horizontal {
-		height: $ship-min-size;
-		width: $cell-size * 2;
-	}
-}
-
-.single-deck {
-	height: $cell-size;
-	width: $cell-size;
-}
-

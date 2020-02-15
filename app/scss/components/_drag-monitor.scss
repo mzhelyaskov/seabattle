@@ -1,0 +1,30 @@
+#drag-monitor {
+	display: none;
+
+	&.active {
+		display: block;
+		position: fixed;
+		top: 0;
+		left: 0;
+		border: 2px solid black;
+		padding: 5px;
+		margin: 0;
+		list-style-type: none;
+		font-size: 2rem;
+		font-family: cursive;
+	}
+}
+
+#point {
+	display: none;
+
+	&.active {
+		display: block;
+		position: absolute !important;
+		background-color: black;
+		border-radius: 50%;
+		width: 2px;
+		height: 2px;
+		z-index: 10000;
+	}
+}
