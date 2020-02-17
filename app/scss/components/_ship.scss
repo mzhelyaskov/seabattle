@@ -1,4 +1,5 @@
 @import "../variables";
+@import "../utils/functions";
 
 $color-port-border: #b2b2b9;
 $single-deck-size: $cell-size + 1;
@@ -12,6 +13,7 @@ $four-deck-length: ($cell-size * 4) + 1;
 	margin-left: 3rem;
 	height: $cell-size;
 	box-sizing: border-box;
+	position: relative;
 
 	&.four-deck-port {
 		width: $four-deck-length;
@@ -28,16 +30,15 @@ $four-deck-length: ($cell-size * 4) + 1;
 	&.single-deck-port {
 		width: $single-deck-size;
 	}
-
-	.ship {
-		margin: -1px;
-	}
 }
 
 .ship {
+	position: absolute;
+	z-index: z-index('onTop');
 	border: 2px solid #00f;
 	background: rgba(0, 0, 255, 0.05);
 	box-sizing: border-box;
+	margin: -1px;
 
 	&.four-deck {
 		&.vertical {

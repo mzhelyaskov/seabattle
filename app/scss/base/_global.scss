@@ -5,6 +5,7 @@ html {
 }
 
 body {
+	position: relative;
 	margin: 0;
 	padding: 0;
 	-webkit-touch-callout: none; /* iOS Safari */
@@ -31,4 +32,8 @@ body {
 			float: right;
 		}
 	}
+}
+
+.selected {
+	background-color: aquamarine;
 }

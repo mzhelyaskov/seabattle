@@ -41,7 +41,6 @@
 			startPageX: event.pageX,
 			startPageY: event.pageY
 		});
-		draggable.onDragStart();
 
 		// Monitoring =========================
 		if (environment.dev) {
@@ -51,7 +50,10 @@
 					property: 'shipSize',
 					value: `W: ${draggableShipElem.offsetWidth} / H: ${draggableShipElem.offsetHeight}`
 				},
-				{property: 'shipCords', value: `L: ${coords.left} / T: ${coords.top}`},
+				{
+					property: 'shipCords',
+					value: `L: ${coords.left} / T: ${coords.top}`
+				},
 			]);
 		}
 	};
@@ -60,20 +62,37 @@
 		if (!draggable) {
 			return;
 		}
-		draggable.drag(event.clientX, event.clientY);
+		const dropZoneSearchPoint = draggable.getDropZoneSearchPoint(event);
+		draggable.hide();
+		if (environment.dev) {
+			dragMonitor.hidePoint();
+		}
+		const dropZone = getElementUnderClientXY(dropZoneSearchPoint);
+		draggable.show();
+		if (environment.dev) {
+			dragMonitor.showPoint();
+		}
+		if (dropZone.classList.contains('battlefield-cell')) {
+			if (draggable.dropZone !== dropZone) {
+				draggable.dropTo(dropZone);
+			}
+		} else {
+			if (draggable.elem.parent !== document.body) {
+				document.body.appendChild(draggable.elem);
+			}
+			draggable.drag(event.pageX, event.pageY);
+		}
 
 		// Monitoring =========================
 		if (environment.dev) {
-			const coords = getCoords(draggable.elem);
-			const shift = draggable.elem.offsetHeight / 2;
-			const pointX = coords.left + shift;
-			const pointY = coords.top + shift;
+			const pointX = event.pageX - draggable.centerShiftX;
+			const pointY = event.pageY - draggable.centerShiftY;
 			dragMonitor.pointElem.style.left = Measures.toPx(pointX);
 			dragMonitor.pointElem.style.top = Measures.toPx(pointY);
 			dragMonitor.pointElem.firstElementChild.innerHTML = `x: ${pointX} y: ${pointY}`;
 			dragMonitor.update([
-				{property: 'mouseX', value: event.clientX},
-				{property: 'mouseY', value: event.clientY}
+				{property: 'mouseX', value: event.pageX},
+				{property: 'mouseY', value: event.pageY}
 			]);
 		}
 	};
@@ -92,18 +111,40 @@
 
 	function Draggable(params) {
 		const coords = getCoords(params.elem);
+		this.halfOfWidth = params.elem.offsetHeight / 2;
 		this.elem = params.elem;
 		this.shiftX = params.startPageX - coords.left;
 		this.shiftY = params.startPageY - coords.top;
+		this.centerShiftX = this.shiftX - this.halfOfWidth;
+		this.centerShiftY = this.shiftY - this.halfOfWidth;
 	}
+
+	Draggable.prototype.dropTo = function (dropZone) {
+		dropZone.appendChild(this.elem);
+		this.elem.style.left = '0';
+		this.elem.style.top = '0';
+		this.dropZone = dropZone;
+	};
+
+	Draggable.prototype.getDropZoneSearchPoint = function (event) {
+		return new Point(
+			event.clientX - this.centerShiftX,
+			event.clientY - this.centerShiftY
+		);
+	};
+
+	Draggable.prototype.hide = function () {
+		this._display = this.elem.style.display || '';
+		this.elem.style.display = 'none';
+	};
+
+	Draggable.prototype.show = function () {
+		this.elem.style.display = this._display;
+	};
 
 	Draggable.prototype.drag = function (x, y) {
 		this.elem.style.left = Measures.toPx(x - this.shiftX);
 		this.elem.style.top = Measures.toPx(y - this.shiftY);
-	};
-
-	Draggable.prototype.onDragStart = function () {
-		this.elem.classList.add('draggable');
 	};
 
 	Draggable.prototype.rollback = function () {
@@ -124,12 +165,26 @@
 		this.fieldElement.innerHTML = this.fieldTemplate({rows});
 	};
 
+	function Point(x, y) {
+		this.x = x;
+		this.y = y;
+	}
+
 	function DragMonitor(properties) {
 		this.monitorElem = properties.monitorElem;
 		this.template = properties.template;
 		this.pointElem = properties.pointElem;
 		this.indicators = [];
 	}
+
+	DragMonitor.prototype.hidePoint = function () {
+		this._pointElemTmpDisplay = this.pointElem.style.display || '';
+		this.pointElem.style.display = 'none';
+	};
+
+	DragMonitor.prototype.showPoint = function () {
+		this.pointElem.style.display = this._pointElemTmpDisplay;
+	};
 
 	DragMonitor.prototype.update = function (indicators) {
 		indicators.forEach(indicator => {
@@ -170,5 +225,13 @@
 			top: Math.round(elemRect.top + scrollTop - clientTop),
 			left: Math.round(elemRect.left + scrollLeft - clientLeft)
 		};
+	}
+
+	function getElementUnderClientXY(point) {
+		let target = document.elementFromPoint(point.x, point.y);
+		if (!target || target === document) {
+			target = document.body;
+		}
+		return target;
 	}
 });
