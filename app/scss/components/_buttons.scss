@@ -1,0 +1,17 @@
+@import "../utils/colors";
+
+.btn {
+	border-radius: 0;
+
+	&:focus,
+	&:active {
+		outline: none;
+	}
+
+	&.btn-default {
+		&:focus,
+		&:active {
+			outline: none;
+		}
+	}
+}

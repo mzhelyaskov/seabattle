@@ -3,8 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Sea Battle</title>
+	<link rel="stylesheet" href="vendor/css/bootstrap.min.css" type="text/css">
 	<link rel="stylesheet" href="styles.css" type="text/css">
-	<script src="vendor/handlebars.min.js"></script>
+	<script src="vendor/js/handlebars.min.js"></script>
 </head>
 <body>
 
@@ -18,49 +19,59 @@
 		<div id="player-battlefield" class="battlefield"></div>
 	</div>
 	<div class="col">
-		<ul class="harbor">
-			<li>
-				<div class="port four-deck-port">
-					<div class="ship four-deck horizontal"></div>
-				</div>
-			</li>
-			<li>
-				<div class="port triple-deck-port">
-					<div class="ship triple-deck horizontal"></div>
-				</div>
-				<div class="port triple-deck-port">
-					<div class="ship triple-deck horizontal"></div>
-				</div>
-			</li>
-			<li>
-				<div class="port double-deck-port">
-					<div class="ship double-deck horizontal"></div>
-				</div>
-				<div class="port double-deck-port">
-					<div class="ship double-deck horizontal"></div>
-				</div>
-				<div class="port double-deck-port">
-					<div class="ship double-deck horizontal"></div>
-				</div>
-			</li>
-			<li>
-				<div class="port single-deck-port">
-					<div class="ship single-deck"></div>
-				</div>
-				<div class="port single-deck-port">
-					<div class="ship single-deck"></div>
-				</div>
-				<div class="port single-deck-port">
-					<div class="ship single-deck"></div>
-				</div>
-				<div class="port single-deck-port">
-					<div class="ship single-deck"></div>
-				</div>
-			</li>
-		</ul>
+		<div class="harbor">
+			<ul class="fleet">
+				<li>
+					<div class="port four-deck-port">
+						<div id="p-0" class="ship four-deck horizontal" data-decks="4"></div>
+					</div>
+				</li>
+				<li>
+					<div class="port triple-deck-port">
+						<div id="p-1" class="ship triple-deck horizontal" data-decks="3"></div>
+					</div>
+					<div class="port triple-deck-port">
+						<div id="p-2" class="ship triple-deck horizontal" data-decks="3"></div>
+					</div>
+				</li>
+				<li>
+					<div class="port double-deck-port">
+						<div id="p-3" class="ship double-deck horizontal" data-decks="2"></div>
+					</div>
+					<div class="port double-deck-port">
+						<div id="p-4" class="ship double-deck horizontal" data-decks="2"></div>
+					</div>
+					<div class="port double-deck-port">
+						<div id="p-5" class="ship double-deck horizontal" data-decks="2"></div>
+					</div>
+				</li>
+				<li>
+					<div class="port single-deck-port">
+						<div id="p-6" class="ship single-deck" data-decks="1"></div>
+					</div>
+					<div class="port single-deck-port">
+						<div id="p-7" class="ship single-deck" data-decks="1"></div>
+					</div>
+					<div class="port single-deck-port">
+						<div id="p-8" class="ship single-deck" data-decks="1"></div>
+					</div>
+					<div class="port single-deck-port">
+						<div id="p-9" class="ship single-deck" data-decks="1"></div>
+					</div>
+				</li>
+			</ul>
+			<div class="actions">
+				<button class="btn btn-default">Auto</button>
+			</div>
+		</div>
 	</div>
 </div>
-<script src="script.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/ship.js"></script>
+<script src="js/battlefield.js"></script>
+<script src="js/cell.js"></script>
+<script src="js/drag-monitor.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
 

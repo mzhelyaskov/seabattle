@@ -230,7 +230,7 @@ window.onload = function() {
 			// таким способом мы очень сократили и унифицировали код
 			// значение 1, записанное в ячейку двумерного массива, говорит о том, что
 			// по данным координатам находится палуба некого корабля
-			player.matrix[x + k * kx][y + k * ky] = 1;
+			player.stateMatrix[x + k * kx][y + k * ky] = 1;
 			// записываем координаты корабля в матрицу экземпляра корабля
 			this.matrix.push([x + k * kx, y + k * ky]);
 			k++;
@@ -673,7 +673,7 @@ window.onload = function() {
 					// создаём двумерный массив, в который будем записывать полученные координаты
 					// палуб кораблей, а в дальнейшем, координаты выстрелов компьютера, попаданий
 					// и клеток игрового поля, где кораблей точно быть не может
-					user.matrix = createMatrix();
+					user.stateMatrix = createMatrix();
 
 					// проверяем, видна ли первоначальная дислокация кораблей
 					// используя данное условие, мы можем при повторных клика
@@ -793,13 +793,13 @@ window.onload = function() {
 				}
 
 				// значение матрицы по полученным координатам
-				var val	= enemy.matrix[coords.x][coords.y];
+				var val	= enemy.stateMatrix[coords.x][coords.y];
 				switch(val) {
 					// промах
 					case 0:
 						// устанавливаем иконку промаха и записываем промах в матрицу
 						self.showIcons(enemy, coords, 'dot');
-						enemy.matrix[coords.x][coords.y] = 3;
+						enemy.stateMatrix[coords.x][coords.y] = 3;
 
 						// выводим сообщение о промахе в нижней части экрана
 						text = (player === user) ? 'Вы промахнулись. Стреляет компьютер.' : 'Компьютер промахнулся. Ваш выстрел.';
@@ -833,7 +833,7 @@ window.onload = function() {
 					// попадание
 					case 1:
 						// записываем в матрицу значение '4', которое соответствует попаданию
-						enemy.matrix[coords.x][coords.y] = 4;
+						enemy.stateMatrix[coords.x][coords.y] = 4;
 						// отображаем иконку попадания
 						self.showIcons(enemy, coords, 'red-cross');
 						// выводим сообщение о попадании в нижней части экрана
@@ -844,7 +844,7 @@ window.onload = function() {
 						// при возможном удалении его элементов
 						for (var i = enemy.squadron.length - 1; i >= 0; i--) {
 							var warship		= enemy.squadron[i], // вся информация о корабле эскадры
-								arrayDescks	= warship.matrix; // массив с координатами палуб корабля
+								arrayDescks	= warship.stateMatrix; // массив с координатами палуб корабля
 
 							// перебираем координаты палуб корабля
 							for (var j = 0, length = arrayDescks.length; j < length; j++) {
@@ -1031,7 +1031,7 @@ window.onload = function() {
 					self.showIcons(enemy, coords, 'shaded-cell');
 					// записываем в матрице игрового поля компьютера 2,
 					// значение заблокированной клетки
-					comp.matrix[coords.x][coords.y] = 2;
+					comp.stateMatrix[coords.x][coords.y] = 2;
 				}
 			},
 
@@ -1060,7 +1060,7 @@ window.onload = function() {
 							el.parentNode.removeChild(el);
 							// записываем в матрице игрового поля компьютера 0,
 							// значение пустой клетки
-							comp.matrix[coords.x][coords.y] = 0;
+							comp.stateMatrix[coords.x][coords.y] = 0;
 						}
 						flag = false;
 					}
@@ -1353,7 +1353,7 @@ window.onload = function() {
 		var print = '';
 		for (var x = 0; x < 10; x++) {
 			for (var y = 0; y < 10; y++) {
-				print += comp.matrix[x][y];
+				print += comp.stateMatrix[x][y];
 			}
 			print += '<br>';
 		}
