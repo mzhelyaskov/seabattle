@@ -2,7 +2,7 @@
 	document.addEventListener("DOMContentLoaded", run);
 })(function () {
 
-	const environment = {dev: true};
+	const environment = {dev: false};
 	const dragMonitor = new DragMonitor({
 		pointElem: getElementById('point'),
 		monitorElem: getElementById('drag-monitor'),
@@ -93,19 +93,20 @@
 			if (playerBattleField.isCellAvailableToAttachShip(ship.headCell, ship.decks, orientation)) {
 				ship.switchOrientation();
 			} else {
-				// TODO shake ship
+				ship.shake();
 			}
 			playerBattleField.attachShip(ship.headCell, ship);
 		}
 	};
 
 	function createShips() {
-		return document.querySelectorAll('.ship').reduce((ships, shipElem) => {
+		return Array.prototype.reduce.call(document.querySelectorAll('.ship'), (ships, shipElem) => {
 			ships.push(new Ship({
 				id: shipElem.id,
 				elem: shipElem,
 				decks: +shipElem.dataset.decks
-			}))
+			}));
+			return ships;
 		}, []);
 	}
 

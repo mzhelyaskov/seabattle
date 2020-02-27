@@ -17,10 +17,10 @@ Ship.prototype.switchOrientation = function () {
 	this.orientation = this.orientation === Orientation.VERTICAL
 		? Orientation.HORIZONTAL
 		: Orientation.VERTICAL;
-	const newWidth = this.elem.offsetHeight;
-	const newHeight = this.elem.offsetWidth;
-	this.elem.style.width = Measures.toPx(newWidth);
-	this.elem.style.height = Measures.toPx(newHeight);
+	const newWidth = Measures.toPx(this.elem.offsetHeight);
+	const newHeight = Measures.toPx(this.elem.offsetWidth);
+	this.elem.style.width = newWidth;
+	this.elem.style.height = newHeight;
 };
 
 Ship.prototype.getCoordsCenter = function (event) {
@@ -37,6 +37,13 @@ Ship.prototype.drag = function (x, y) {
 
 Ship.prototype.rollback = function () {
 	// TODO ...
+};
+
+Ship.prototype.shake = function () {
+	this.elem.classList.add('shake');
+	setTimeout(() => {
+		this.elem.classList.remove('shake');
+	}, 300);
 };
 
 Ship.prototype.getWith = function () {
