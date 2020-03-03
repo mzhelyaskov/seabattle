@@ -1,11 +1,13 @@
-@import "../variables";
-@import "../utils/functions";
+@import "../abstracts/variables";
+@import "../abstracts/colors";
+@import "../abstracts/functions";
 
 $color-port-border: #b2b2b9;
 $single-deck-size: $cell-size + 1;
 $double-deck-length: ($cell-size * 2) + 1;
 $triple-deck-length: ($cell-size * 3) + 1;
 $four-deck-length: ($cell-size * 4) + 1;
+$ship-opacity: 0.4;
 
 .port {
 	border: 1px dotted $color-port-border;
@@ -35,10 +37,20 @@ $four-deck-length: ($cell-size * 4) + 1;
 .ship {
 	position: absolute;
 	z-index: z-index('onTop');
-	border: 2px solid #00f;
-	background: rgba(0, 0, 255, 0.05);
+	border: 2px solid $color-primary;
+	background: alpha-transparency($color-primary, $ship-opacity);
 	box-sizing: border-box;
 	margin: -1px;
+
+	&.ship-on-drug {
+		border-color: $color-danger;
+		background: alpha-transparency($color-danger, $ship-opacity);
+	}
+
+	&.ship-ready-to-drop {
+		border-color: $color-success;
+		background: alpha-transparency($color-success, $ship-opacity);
+	}
 
 	&.four-deck {
 		&.vertical {

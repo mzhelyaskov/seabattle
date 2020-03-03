@@ -1,0 +1,9 @@
+@import "../abstracts/variables";
+
+@function alpha-transparency($color, $opacity) {
+	@return rgba(red($color), green($color), blue($color), $opacity);
+}
+
+@function z-index($key) {
+	@return map-get($z-index, $key);
+}
