@@ -1,4 +1,4 @@
-@import "../abstracts/variables";
+@import "abstracts/variables";
 
 @function alpha-transparency($color, $opacity) {
 	@return rgba(red($color), green($color), blue($color), $opacity);

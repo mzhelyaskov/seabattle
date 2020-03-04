@@ -9,11 +9,11 @@
 [ ] Верстка порта с кораблями
 [ ] Отностильные координаты
 [ ] ООП: Классы в JS5, prototype/__proto__, constructors, private methods
+[ ] Классы в JS6 синатксисе
 [ ] Статические методы
 [ ] Работа с координами: pageX/pageY, clientX/clientY, elementFromPoint, getBoundingClientRect
 [ ] Основы Drag and Drop. Общая схема реализации алгоритма
-[ ]
-[ ]
+[ ] Настрока webpack
 [ ]
 [ ]
 [ ]
