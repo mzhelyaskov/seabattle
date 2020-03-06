@@ -7,7 +7,7 @@ export class Cell {
 		this.col = props.col;
 	}
 
-	attachShip(ship) {
+	insertShip(ship) {
 		this.elem.appendChild(ship.elem);
 		ship.elem.style.left = '0';
 		ship.elem.style.top = '0';

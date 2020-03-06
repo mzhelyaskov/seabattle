@@ -1,4 +1,4 @@
 export const Orientation = {
-	HORIZONTAL: 'H',
-	VERTICAL: 'V',
+	HORIZONTAL: 'horizontal',
+	VERTICAL: 'vertical',
 };

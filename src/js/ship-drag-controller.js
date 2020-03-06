@@ -8,9 +8,9 @@ import {ShipStatus} from './ship-status.js';
 import {Port} from './port.js';
 import {Cell} from './cell.js';
 
-export class AppController {
+export class ShipDragController {
 
-	static run() {
+	static init() {
 		const environment = {dev: false};
 		const dragMonitor = new DragMonitor({
 			pointElem: Utils.getElementById('point'),
@@ -21,6 +21,7 @@ export class AppController {
 			fieldElement: Utils.getElementById('player-battlefield'),
 			fieldTemplate: Utils.getTemplate('battlefield-tmpl')
 		});
+		const autoLocationBtn = Utils.getElementById('auto-location-btn');
 		let playerShips = createPlayerShips();
 		let gameStarted = false;
 		let draggableShip = null;
@@ -38,9 +39,9 @@ export class AppController {
 			if (!draggableShip) {
 				return;
 			}
-			draggableShip.onDragStart(event.pageX, event.pageY);
-			playerBattleField.detachShipFromCell(draggableShip);
-			playerBattleField.updateCoordsRect();
+			draggableShip.onDragStart(event.pageX, event.pageY); // инициализируем координаты центра
+			playerBattleField.detachShip(draggableShip); // просто удаляет корабль из списка кораблей присоединенных к полю и чистим статусы ячеек
+			playerBattleField.updateCoordsRect(); // обновляем координаты рассположения поля относительно экрана
 
 			// Monitoring =========================
 			if (environment.dev) {
@@ -57,19 +58,21 @@ export class AppController {
 			const decks = draggableShip.decks;
 			const orientation = draggableShip.orientation;
 			if (playerBattleField.isCellAvailableToAttachShip(cell, decks, orientation)) {
-				cell.attachShip(draggableShip);
-				draggableShip.holderCell = cell;
-				draggableShip.setStatus(ShipStatus.FIXED);
+				if (draggableShip.mainCell !== cell) {
+					cell.insertShip(draggableShip);
+					draggableShip.mainCell = cell;
+					draggableShip.setStatus(ShipStatus.INSERTED);
+				}
 			} else {
-				draggableShip.holderCell = null;
 				if (draggableShip.elem.parentElement !== document.body) {
 					document.body.appendChild(draggableShip.elem);
+					draggableShip.mainCell = null;
+					draggableShip.setStatus(ShipStatus.DRAGGING);
 				}
 				draggableShip.drag(event.pageX, event.pageY);
-				draggableShip.setStatus(ShipStatus.DRAGGING);
 			}
 
-			// Monitoring =========================
+			// Monitoring ===========================================
 			if (environment.dev) {
 				const pointX = event.pageX - draggableShip.centerShiftX;
 				const pointY = event.pageY - draggableShip.centerShiftY;
@@ -89,14 +92,15 @@ export class AppController {
 			}
 			const ship = draggableShip;
 			draggableShip = null;
-			if (ship.holderCell) {
-				playerBattleField.attachShipToCell(ship.holderCell, ship);
-				ship.setContainerToRollback(ship.holderCell);
+			if (ship.mainCell) {
+				playerBattleField.attachShip(ship.mainCell, ship);
+				ship.setContainerToRollback(ship.mainCell);
 				ship.setStatus(ShipStatus.ATTACHED);
 			} else {
 				ship.rollbackDrag();
 				if (ship.containerToRoollback instanceof Cell) {
-					playerBattleField.attachShipToCell(ship.containerToRoollback, ship);
+					playerBattleField.attachShip(ship.containerToRoollback, ship);
+					ship.mainCell = ship.containerToRoollback;
 				}
 			}
 		});
@@ -108,15 +112,19 @@ export class AppController {
 			const ship = getShipFromEventTarget(event);
 			if (ship && playerBattleField.containsShip(ship)) {
 				event.preventDefault();
-				playerBattleField.detachShipFromCell(ship);
+				playerBattleField.detachShip(ship);
 				const orientation = ship.orientation === Orientation.VERTICAL ? Orientation.HORIZONTAL : Orientation.VERTICAL;
-				if (playerBattleField.isCellAvailableToAttachShip(ship.holderCell, ship.decks, orientation)) {
+				if (playerBattleField.isCellAvailableToAttachShip(ship.mainCell, ship.decks, orientation)) {
 					ship.switchOrientation();
 				} else {
 					ship.shake();
 				}
-				playerBattleField.attachShipToCell(ship.holderCell, ship);
+				playerBattleField.attachShip(ship.mainCell, ship);
 			}
+		});
+
+		autoLocationBtn.addEventListener('click', function () {
+			playerBattleField.randomShipsLocation(playerShips);
 		});
 
 		function createPlayerShips() {

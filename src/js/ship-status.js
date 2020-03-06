@@ -1,6 +1,6 @@
 export const ShipStatus = {
 	DRAGGING: 'DRAGGING',
-	FIXED: 'FIXED',
+	INSERTED: 'FIXED',
 	ATTACHED: 'ATTACHED',
 	NONE: 'NONE'
 };

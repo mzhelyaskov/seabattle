@@ -16,7 +16,15 @@ export class Ship {
 		this.orientation = Orientation.HORIZONTAL;
 		this.status = ShipStatus.NONE;
 		this.containerToRoollback = params.container;
-		this.cells = [];
+		this.mainCell = null;
+	}
+
+	setOrientation(orientation) {
+		if (this.orientation !== orientation) {
+			this.elem.classList.remove(this.orientation);
+			this.elem.classList.add(orientation);
+			this.orientation = orientation;
+		}
 	}
 
 	setContainerToRollback(container) {
@@ -32,28 +40,26 @@ export class Ship {
 		if (status === ShipStatus.DRAGGING) {
 			this.elem.classList.add(SHIP_ON_DRAG_CLASS);
 		}
-		if (status === ShipStatus.FIXED) {
+		if (status === ShipStatus.INSERTED) {
 			this.elem.classList.add(READY_TO_DROP_CLASS);
 		}
 		this.status = status;
 	}
 
-	onDragStart(mouseX, mouseY) {
+	onDragStart(downX, downY) {
 		const coords = Utils.getCoordsRect(this.elem);
-		this.shiftX = mouseX - coords.left;
-		this.shiftY = mouseY - coords.top;
-		this.centerShiftX = this.shiftX - this.getWith() / 2;
-		this.centerShiftY = this.shiftY - this.getWith() / 2;
+		const shipWidth = Math.min(this.elem.offsetHeight, this.elem.offsetWidth);
+		this.shiftX = downX - coords.left;
+		this.shiftY = downY - coords.top;
+		this.centerShiftX = this.shiftX - shipWidth / 2;
+		this.centerShiftY = this.shiftY - shipWidth / 2;
 	}
 
 	switchOrientation() {
-		this.orientation = this.orientation === Orientation.VERTICAL
+		const orientation = this.orientation === Orientation.VERTICAL
 			? Orientation.HORIZONTAL
 			: Orientation.VERTICAL;
-		const newWidth = MeasuresUtils.toPx(this.elem.offsetHeight);
-		const newHeight = MeasuresUtils.toPx(this.elem.offsetWidth);
-		this.elem.style.width = newWidth;
-		this.elem.style.height = newHeight;
+		this.setOrientation(orientation);
 	}
 
 	getCoordsCenter(event) {
@@ -80,9 +86,5 @@ export class Ship {
 		setTimeout(() => {
 			this.elem.classList.remove('shake');
 		}, 300);
-	}
-
-	getWith() {
-		return Math.min(this.elem.offsetHeight, this.elem.offsetWidth);
 	}
 }
